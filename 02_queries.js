@@ -1,7 +1,7 @@
 // Завдання 1. Треки для вечірки
 // Знайдіть треки, що підходять для вечірки. Такі треки повинні мати високий danceability (вище 0.7) та високу енергію (також вище 0.7), а тривалість — від 3 до 5 хвилин (180000–300000 мс).
 
-db.tracks.find({
+printjson(db.tracks.find({
     "audio_features.danceability": {
         $gt: 0.7
     },
@@ -12,7 +12,7 @@ db.tracks.find({
         $gt: 180,
         $lt: 300
     }
-})
+}))
 
 
 // RESULT with limit 1
@@ -51,7 +51,7 @@ db.tracks.find({
 // Вважатимемо артиста популярним, якщо у нього є мінімум 3 треки і при цьому мінімальна популярність цих треків становить 60% або вище.
 // Знайдіть топ-20 таких артистів і виведіть для кожного ім’я артиста кількість треків, мінімальну та середню популярність з точністю до одного знака після коми.
 
-db.tracks.aggregate([
+printjson(db.tracks.aggregate([
     {$unwind: "$artists"},
     {
         $group: {
@@ -78,7 +78,7 @@ db.tracks.aggregate([
     },
     {$sort: {avg_popularity: -1}},
     {$limit: 20}
-])
+]))
 
 // RESULT
 // [
@@ -209,7 +209,7 @@ db.tracks.aggregate([
 // Визначте треки з незвично високим темпом для їхнього жанру за наступним алгоритмом: спочатку розрахуйте середнє значення tempo за допомогою функції $avg та стандартне відхилення за допомогою $stdDevPop по кожному жанру, потім виберіть треки, у яких tempo перевищує середнє плюс два стандартні відхилення (tempo треку > mean жанру + 2 * stdDev жанру).
 // У результаті для кожного жанру додайте поля: "avg_tempo" — середній темп, "genre" — назва жанру, "outlier_threshold" — значення порогу для нетипових треків, і "outlier_tracks" — масив об’єктів з інформацією про треки
 
-db.tracks.aggregate([
+printjson(db.tracks.aggregate([
     {
         $group: {
             _id: "$track_genre",
@@ -266,7 +266,7 @@ db.tracks.aggregate([
         }
     },
     {$sort: {genre: 1}}
-])
+]))
 
 
 // RESULT (with limit 1)
@@ -315,12 +315,12 @@ db.tracks.aggregate([
 // Знайдіть треки, які підходять для фонового прослуховування під час роботи: тихі (loudness < -10), з низькою мовленнєвою складовою (speechiness < 0,1), переважно інструментальні (instrumentalness > 0,5) і не містять explicit-контенту.
 
 
-db.tracks.find({
+printjson(db.tracks.find({
     "audio_features.loudness": {$lt: -10},
     "audio_features.speechiness": {$lt: 0.1},
     "audio_features.instrumentalness": {$gt: 0.5},
     explicit: false
-})
+}))
 
 // RESULT (with limit 1)
 // [

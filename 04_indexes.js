@@ -1,11 +1,11 @@
 // Завдання 1. Аналіз запиту та індексація
 
 
-db.tracks.find({
+printjson(db.tracks.find({
     track_genre: "pop",
     "audio_features.danceability": {$gte: 0.7}
 }).sort({popularity: -1})
-    .explain("executionStats");
+    .explain("executionStats"));
 
 
 // RESULT
@@ -17,11 +17,11 @@ db.tracks.find({
 
 
 db.tracks.createIndex({ track_genre: 1 })
-db.tracks.find({
+printjson(db.tracks.find({
     track_genre: "pop",
     "audio_features.danceability": {$gte: 0.7}
 }).sort({popularity: -1})
-    .explain("executionStats")
+    .explain("executionStats"))
 
 // RESULT
 // "executionStats": {
@@ -98,14 +98,3 @@ db.tracks.find({
 //           "works": 86930,
 //           "advanced": 85860,
 //           "needTime": 1069,
-//           "needYield": 0,
-//           "saveState": 17,
-//           "restoreState": 17,
-//           "isEOF": 1,
-//           "keyPattern": {
-//             "explicit": 1,
-//             "audio_features.speechiness": 1,
-//             "audio_features.instrumentalness": 1
-//           },
-//           "indexName": "explicit_1_audio_features.speechiness_1_audio_features.instrumentalness_1",
-//           "isMultiKey": false,

@@ -2,7 +2,7 @@
 // Знайдіть виконавців, у яких є хоча б 5 треків. Для кожного виконавця порахуйте середню популярність його треків. Потім відсортуйте за спаданням та виберіть топ-10 виконавців. Вивід повинен включати ім’я виконавця та його середню популярність.
 
 
-db.tracks.aggregate([
+printjson(db.tracks.aggregate([
     {$unwind: "$artists"},
     {
         $group: {
@@ -25,7 +25,7 @@ db.tracks.aggregate([
     },
     {$sort: {avg_popularity: -1}},
     {$limit: 10}
-])
+]))
 
 // RESULT
 // [
@@ -80,7 +80,7 @@ db.tracks.aggregate([
 // низький valence + низька energy → sad Порахуйте, скільки треків потрапило до кожної категорії, та виведіть таблицю з настроєм і кількістю треків.
 
 
-db.tracks.aggregate([
+printjson(db.tracks.aggregate([
     {
         $addFields: {
             mood: {
@@ -136,7 +136,7 @@ db.tracks.aggregate([
     },
 
     {$sort: {track_count: -1}}
-])
+]))
 
 // RESULT
 // [
@@ -164,7 +164,7 @@ db.tracks.aggregate([
 // Відфільтруйте жанри, в яких налічується менше 100 треків, щоб забезпечити статистичну надійність.
 
 
-db.tracks.aggregate([
+printjson(db.tracks.aggregate([
     {
         $group: {
             _id: "$track_genre",
@@ -197,7 +197,7 @@ db.tracks.aggregate([
         }
     },
     {$limit: 1}
-])
+]))
 
 
 // RESULT

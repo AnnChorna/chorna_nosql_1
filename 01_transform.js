@@ -1,4 +1,4 @@
-db.tracks_raw.find().limit(1)
+printjson(db.tracks_raw.find().limit(1))
 
 // RESULT
 // [
@@ -28,7 +28,7 @@ db.tracks_raw.find().limit(1)
 //   }
 // ]
 
-db.tracks_raw.find().count()
+printjson(db.tracks_raw.find().count())
 
 // RESULT
 // [
@@ -117,7 +117,7 @@ db.tracks_raw.aggregate([
     }
 ])
 
-db.tracks.find().count()
+printjson(db.tracks.find().count())
 
 // RESULT
 // [
@@ -126,7 +126,7 @@ db.tracks.find().count()
 //   }
 // ]
 
-db.tracks.find().limit(5)
+printjson(db.tracks.find().limit(5))
 
 // RESULT
 // [
